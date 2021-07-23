@@ -13,18 +13,19 @@ const Knex = require("knex");
 const knex_utils_1 = require("./knex.utils");
 let KnexModule = KnexModule_1 = class KnexModule {
     static register(config) {
+        const KnexProvider = {
+            provide: knex_utils_1.getKnexConnectionToken(),
+            useValue: Knex.knex(config),
+        };
         return {
             module: KnexModule_1,
-            providers: [
-                {
-                    provide: knex_utils_1.getKnexConnectionToken(),
-                    useValue: Knex.knex(config),
-                },
-            ],
+            providers: [KnexProvider],
+            exports: [KnexProvider],
         };
     }
 };
 KnexModule = KnexModule_1 = __decorate([
+    common_1.Global(),
     common_1.Module({})
 ], KnexModule);
 exports.KnexModule = KnexModule;

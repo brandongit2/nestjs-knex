@@ -1,6 +1,6 @@
 {
   "name": "@brandonnpm2/nestjs-knex",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A NestJS module for using Knex.js.",
   "author": "Brandon Tsang",
   "license": "MIT",
