@@ -1,50 +1,27 @@
-# NestJS Knex
+# @brandongit2/nestjs-knex
 
-<a href="https://www.npmjs.com/package/nestjs-knex"><img src="https://img.shields.io/npm/v/nestjs-knex.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/package/nestjs-knex"><img src="https://img.shields.io/npm/l/nestjs-knex.svg" alt="Package License" /></a>
-
-## Table of Contents
-
-- [Description](#description)
-- [Installation](#installation)
-- [Examples](#examples)
-- [License](#license)
-
-## Description
-Integrates Knex with Nest
+A NestJS module for using Knex.js.
 
 ## Installation
 
 ```bash
-npm install nestjs-knex knex
-```
-
-You can also use the interactive CLI
-
-```sh
-npx nestjs-modules
+yarn add nestjs-knex knex
 ```
 
 ## Examples
-```bash
-npm install nestjs-knex knex sqlite3
-```
 
-### KnexModule.forRoot(options, connection?)
+### KnexModule.register(config)
 
 ```ts
-import { Module } from '@nestjs/common';
-import { KnexModule } from 'nestjs-knex';
-import { AppController } from './app.controller';
+import {Module} from "@nestjs/common"
+import {KnexModule} from "nestjs-knex"
+import {AppController} from "./app.controller"
 
 @Module({
   imports: [
-    KnexModule.forRoot({
-      config: {
-        client: "sqlite3",
-        useNullAsDefault: true,
-        connection: ':memory:',
-      },
+    KnexModule.register({
+      client: "pg",
+      connection: `...`,
     }),
   ],
   controllers: [AppController],
@@ -52,57 +29,20 @@ import { AppController } from './app.controller';
 export class AppModule {}
 ```
 
-### KnexModule.forRootAsync(options, connection?)
+### InjectKnex()
 
 ```ts
-import { Module } from '@nestjs/common';
-import { KnexModule } from 'nestjs-knex';
-import { AppController } from './app.controller';
-
-@Module({
-  imports: [
-    KnexModule.forRootAsync({
-      useFactory: () => ({
-        config: {
-          client: "sqlite3",
-          useNullAsDefault: true,
-          connection: ':memory:',
-        },
-      }),
-    }),
-  ],
-  controllers: [AppController],
-})
-export class AppModule {}
-```
-
-### InjectKnex(connection?)
-
-```ts
-import { Controller, Get, } from '@nestjs/common';
-import { InjectKnex, Knex } from 'nestjs-knex';
+import {Controller, Get} from "@nestjs/common"
+import {InjectKnex, Knex} from "nestjs-knex"
 
 @Controller()
 export class AppController {
-  constructor(
-    @InjectKnex() private readonly knex: Knex,
-  ) {}
+  constructor(@InjectKnex() private readonly knex: Knex) {}
 
   @Get()
-  async getHello() {
-    if (!await this.knex.schema.hasTable('users')) {
-      await this.knex.schema.createTable('users', table => {
-        table.increments('id').primary();
-        table.string('name');
-      });
-    }
-    await this.knex.table('users').insert({ name: 'Name' });
-    const users = await this.knex.table('users');
-    return { users };
+  async getUser() {
+    const user = await this.knex.table("users").first(`*`).where({firstName: "Brandon"})
+    return user
   }
 }
 ```
-
-## License
-
-MIT
