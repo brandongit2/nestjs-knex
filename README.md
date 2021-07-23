@@ -40,8 +40,8 @@ export class AppController {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
   @Get()
-  async getUser() {
-    const user = await this.knex.table("users").first(`*`).where({firstName: "Brandon"})
+  async getUser(email: string) {
+    const user = await this.knex.table("users").first(`*`).where({email: "user@example.com"})
     return user
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@brandongit2/nestjs-knex",
+  "name": "@brandonnpm2/nestjs-knex",
   "version": "1.0.0",
   "description": "A NestJS module for using Knex.js.",
   "author": "Brandon Tsang",

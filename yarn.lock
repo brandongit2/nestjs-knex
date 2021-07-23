@@ -32,9 +32,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@brandongit2/nestjs-knex@workspace:.":
+"@brandonnpm2/nestjs-knex@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@brandongit2/nestjs-knex@workspace:."
+  resolution: "@brandonnpm2/nestjs-knex@workspace:."
   dependencies:
     "@nestjs/common": 8.0.4
     "@types/node": 16.4.1
