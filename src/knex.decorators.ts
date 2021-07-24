@@ -1,7 +1,7 @@
 import {Inject} from "@nestjs/common"
 
-import {getKnexConnectionToken} from "./knex.utils"
+import {KNEX_TOKEN} from "./knex.constants"
 
 export const InjectKnex = () => {
-  return Inject(getKnexConnectionToken())
+  return Inject(KNEX_TOKEN)
 }

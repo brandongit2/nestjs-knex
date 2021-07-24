@@ -10,11 +10,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.KnexModule = void 0;
 const common_1 = require("@nestjs/common");
 const Knex = require("knex");
-const knex_utils_1 = require("./knex.utils");
+const knex_constants_1 = require("./knex.constants");
 let KnexModule = KnexModule_1 = class KnexModule {
     static register(config) {
         const KnexProvider = {
-            provide: knex_utils_1.getKnexConnectionToken(),
+            provide: knex_constants_1.KNEX_TOKEN,
             useValue: Knex.knex(config),
         };
         return {

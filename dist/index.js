@@ -10,7 +10,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(require("./knex.constants"), exports);
 __exportStar(require("./knex.decorators"), exports);
 __exportStar(require("./knex.module"), exports);
 __exportStar(require("./knex.interfaces"), exports);
-__exportStar(require("./knex.utils"), exports);

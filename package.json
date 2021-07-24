@@ -1,6 +1,6 @@
 {
   "name": "@brandonnpm2/nestjs-knex",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A NestJS module for using Knex.js.",
   "author": "Brandon Tsang",
   "license": "MIT",
@@ -16,10 +16,8 @@
     "build": "rm -rf dist && tsc --project tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint 'src/**/*.ts' --fix",
-    "prepublish:npm": "npm run build",
-    "publish:npm": "npm publish --access public",
-    "prerelease": "npm run build",
-    "release": "release-it"
+    "publish": "yarn build && yarn npm publish --access public",
+    "publish:next": "yarn build && yarn npm publish --access public --tag next"
   },
   "peerDependencies": {
     "@nestjs/common": "^8.0.4",
@@ -33,6 +31,7 @@
     "eslint": "7.31.0",
     "eslint-plugin-import": "2.23.4",
     "knex": "0.95.7",
+    "pg": "8.6.0",
     "prettier": "2.3.2",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.2.0",
