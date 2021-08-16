@@ -1,15 +1,15 @@
 import {DynamicModule, Global, Module} from "@nestjs/common"
-import * as Knex from "knex"
+import Knex from "knex"
 
 import {KNEX_TOKEN} from "./knex.constants"
 
 @Global()
 @Module({})
 export class KnexModule {
-  static register(config: Knex.Knex.Config): DynamicModule {
+  static register(config: Knex.Config): DynamicModule {
     const KnexProvider = {
       provide: KNEX_TOKEN,
-      useValue: Knex.knex(config),
+      useValue: Knex(config),
     }
 
     return {

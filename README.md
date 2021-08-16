@@ -33,7 +33,8 @@ export class AppModule {}
 
 ```ts
 import {Controller, Get} from "@nestjs/common"
-import {InjectKnex, Knex} from "nestjs-knex"
+import Knex from "knex"
+import {InjectKnex} from "nestjs-knex"
 
 @Controller()
 export class AppController {
