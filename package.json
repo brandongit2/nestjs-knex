@@ -1,6 +1,6 @@
 {
   "name": "@brandonnpm2/nestjs-knex",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A NestJS module for using Knex.js.",
   "author": "Brandon Tsang",
   "license": "MIT",
@@ -15,7 +15,9 @@
   "scripts": {
     "build": "rm -rf dist && tsc --project tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "eslint 'src/**/*.ts' --fix"
+    "lint": "eslint 'src/**/*.ts' --fix",
+    "publish": "yarn build && yarn npm publish --access public",
+    "publish:next": "yarn build && yarn npm publish --access public --tag next"
   },
   "peerDependencies": {
     "@nestjs/common": "^8.0.6",

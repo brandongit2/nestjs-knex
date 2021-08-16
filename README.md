@@ -5,7 +5,7 @@ A NestJS module for using Knex.js.
 ## Installation
 
 ```bash
-yarn add nestjs-knex knex
+yarn add @brandonnpm2/nestjs-knex knex
 ```
 
 ## Examples
@@ -13,14 +13,15 @@ yarn add nestjs-knex knex
 ### KnexModule.register(config)
 
 ```ts
+import {KnexModule} from "@brandonnpm2/nestjs-knex"
 import {Module} from "@nestjs/common"
-import {KnexModule} from "nestjs-knex"
+
 import {AppController} from "./app.controller"
 
 @Module({
   imports: [
     KnexModule.register({
-      client: "pg",
+      client: `pg`,
       connection: `...`,
     }),
   ],
@@ -32,9 +33,10 @@ export class AppModule {}
 ### InjectKnex()
 
 ```ts
+import {InjectKnex} from "@brandonnpm2/nestjs-knex"
 import {Controller, Get} from "@nestjs/common"
-import Knex from "knex"
-import {InjectKnex} from "nestjs-knex"
+
+import type Knex from "knex"
 
 @Controller()
 export class AppController {
@@ -46,4 +48,52 @@ export class AppController {
     return user
   }
 }
+```
+
+### Mocking for tests
+
+```ts
+import {KNEX_TOKEN, KnexModule} from "@brandonnpm2/nestjs-redis"
+import {Test} from "@nestjs/testing"
+
+import type Knex from "knex"
+
+describe(`test`, () => {
+  let knex: Knex
+
+  beforeAll(async () => {
+    const module = await Test.createTestingModule({
+      imports: [
+        KnexModule.register({
+          client: `pg`,
+          connection: `...`,
+        }),
+      ],
+    })
+
+    knex = module.get(KNEX_TOKEN)
+  })
+
+  beforeEach(async () => {
+    await knex.raw(`start transaction`)
+  })
+
+  afterEach(async () => {
+    await knex.raw(`rollback`)
+  })
+
+  test(`basic test`, async () => {
+    const AMY = {
+      id: 0,
+      firstName: `Amy`,
+      lastName: `Brown`,
+      age: 29,
+    }
+
+    await knex.table(`users`).insert(AMY)
+
+    const res = await knex.table(`users`).first(`*`).where({id: AMY.id})
+    expect(res).toMatchObject(AMY)
+  })
+})
 ```
