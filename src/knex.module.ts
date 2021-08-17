@@ -1,8 +1,8 @@
 import {DynamicModule, Global, Module, Provider} from "@nestjs/common"
 import Knex from "knex"
-import {KnexModuleOptions, KnexModuleOptionsFactory} from "src/knex.interfaces"
 
-import {KNEX_TOKEN} from "./knex.constants"
+import {KNEX_OPTIONS_TOKEN, KNEX_TOKEN} from "./knex.constants"
+import {KnexModuleOptions, KnexModuleOptionsFactory} from "./knex.interfaces"
 
 @Global()
 @Module({})
@@ -22,19 +22,27 @@ export class KnexModule {
 
   static registerAsync(options: KnexModuleOptions): DynamicModule {
     if (options.useFactory) {
-      const KnexProvider: Provider = {
-        provide: KNEX_TOKEN,
+      const KnexOptionsProvider: Provider = {
+        provide: KNEX_OPTIONS_TOKEN,
         useFactory: options.useFactory,
         inject: options.inject,
       }
 
+      const KnexProvider: Provider = {
+        provide: KNEX_TOKEN,
+        useFactory(options: Knex.Config) {
+          return Knex(options)
+        },
+        inject: [KNEX_OPTIONS_TOKEN],
+      }
+
       return {
         module: KnexModule,
-        providers: [KnexProvider],
+        providers: [KnexOptionsProvider, KnexProvider],
         exports: [KnexProvider],
       }
     } else if (options.useClass) {
-      const KnexProvider: Provider = {
+      const KnexOptionsProvider: Provider = {
         provide: KNEX_TOKEN,
         useFactory: async (optionsFactory: KnexModuleOptionsFactory) => {
           return optionsFactory.createKnexModuleOptions()
@@ -42,13 +50,21 @@ export class KnexModule {
         inject: [options.useExisting || options.useClass],
       }
 
+      const KnexProvider: Provider = {
+        provide: KNEX_TOKEN,
+        useFactory(options: Knex.Config) {
+          return Knex(options)
+        },
+        inject: [KNEX_OPTIONS_TOKEN],
+      }
+
       return {
         module: KnexModule,
-        providers: [KnexProvider, {provide: options.useClass, useClass: options.useClass}],
+        providers: [KnexOptionsProvider, {provide: options.useClass, useClass: options.useClass}, KnexProvider],
         exports: [KnexProvider],
       }
     } else if (options.useExisting) {
-      const KnexProvider: Provider = {
+      const KnexOptionsProvider: Provider = {
         provide: KNEX_TOKEN,
         useFactory: async (optionsFactory: KnexModuleOptionsFactory) => {
           return optionsFactory.createKnexModuleOptions()
@@ -56,9 +72,17 @@ export class KnexModule {
         inject: [options.useExisting || options.useClass],
       }
 
+      const KnexProvider: Provider = {
+        provide: KNEX_TOKEN,
+        useFactory(options: Knex.Config) {
+          return Knex(options)
+        },
+        inject: [KNEX_OPTIONS_TOKEN],
+      }
+
       return {
         module: KnexModule,
-        providers: [KnexProvider],
+        providers: [KnexOptionsProvider, KnexProvider],
         exports: [KnexProvider],
       }
     }
