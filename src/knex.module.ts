@@ -1,5 +1,5 @@
 import {DynamicModule, Global, Module, Provider} from "@nestjs/common"
-import Knex from "knex"
+import {default as Knex, Knex as KnexType} from "knex"
 
 import {KNEX_OPTIONS_TOKEN, KNEX_TOKEN} from "./knex.constants"
 import {KnexModuleOptions, KnexModuleOptionsFactory} from "./knex.interfaces"
@@ -7,7 +7,7 @@ import {KnexModuleOptions, KnexModuleOptionsFactory} from "./knex.interfaces"
 @Global()
 @Module({})
 export class KnexModule {
-  static register(config: Knex.Config): DynamicModule {
+  static register(config: KnexType.Config): DynamicModule {
     const KnexProvider = {
       provide: KNEX_TOKEN,
       useValue: Knex(config),
@@ -30,7 +30,7 @@ export class KnexModule {
 
       const KnexProvider: Provider = {
         provide: KNEX_TOKEN,
-        useFactory(options: Knex.Config) {
+        useFactory(options: KnexType.Config) {
           return Knex(options)
         },
         inject: [KNEX_OPTIONS_TOKEN],
@@ -52,7 +52,7 @@ export class KnexModule {
 
       const KnexProvider: Provider = {
         provide: KNEX_TOKEN,
-        useFactory(options: Knex.Config) {
+        useFactory(options: KnexType.Config) {
           return Knex(options)
         },
         inject: [KNEX_OPTIONS_TOKEN],
@@ -74,7 +74,7 @@ export class KnexModule {
 
       const KnexProvider: Provider = {
         provide: KNEX_TOKEN,
-        useFactory(options: Knex.Config) {
+        useFactory(options: KnexType.Config) {
           return Knex(options)
         },
         inject: [KNEX_OPTIONS_TOKEN],

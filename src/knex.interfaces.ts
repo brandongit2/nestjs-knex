@@ -1,5 +1,5 @@
 import type {Type} from "@nestjs/common"
-import type Knex from "knex"
+import type {Knex} from "knex"
 
 export type KnexModuleOptionsFactory = {
   createKnexModuleOptions(): Knex.Config | Promise<Knex.Config>
